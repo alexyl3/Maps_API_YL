@@ -30,12 +30,14 @@ class Menu(QMainWindow, Ui_MainWindow):
         self.pushButton_4.clicked.connect(self.sat)
         self.pushButton_5.clicked.connect(self.skl)
         self.pushButton_6.clicked.connect(self.search)
+        self.pushButton_7.clicked.connect(self.clear_search)
         self.pushButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_2.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_3.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_4.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_5.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_6.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.pushButton_7.setFocusPolicy(QtCore.Qt.NoFocus)
         self.lineEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.setMouseTracking(True)
 
@@ -45,7 +47,7 @@ class Menu(QMainWindow, Ui_MainWindow):
         self.upd()
 
     def scale_down(self):
-        if float(self.delta) < 1:
+        if float(self.delta) < 100:
             self.delta = str(float(self.delta) * 0.5)
         self.upd()
 
@@ -112,6 +114,11 @@ class Menu(QMainWindow, Ui_MainWindow):
             self.pt = "{0},pm2ntl".format("{0},{1}".format(self.lon, self.lat))
             self.upd()
 
+    def clear_search(self):
+        self.pt = None
+        self.lineEdit.clear()
+        self.lineEdit.setDisabled(True)
+        self.upd()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

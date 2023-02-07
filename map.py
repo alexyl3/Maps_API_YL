@@ -4,11 +4,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("Map")
-        MainWindow.resize(620, 540)
+        MainWindow.resize(620, 580)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(10, 40, 600, 490))
+        self.label.setGeometry(QtCore.QRect(10, 80, 600, 490))
         self.label.setText("")
         self.label.setObjectName("label")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
@@ -33,6 +33,9 @@ class Ui_MainWindow(object):
         self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_6.setGeometry(QtCore.QRect(535, 15, 80, 32))
         self.pushButton_6.setObjectName("pushButton_6")
+        self.pushButton_7 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_7.setGeometry(QtCore.QRect(335, 45, 230, 32))
+        self.pushButton_7.setObjectName("pushButton_6")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1792, 22))
@@ -41,7 +44,6 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -54,4 +56,5 @@ class Ui_MainWindow(object):
         self.pushButton_4.setText(_translate("MainWindow", "Спутник"))
         self.pushButton_5.setText(_translate("MainWindow", "Гибрид"))
         self.pushButton_6.setText(_translate("MainWindow", "Искать"))
+        self.pushButton_7.setText(_translate("MainWindow", "Сброс поискового результата"))
 

@@ -12,10 +12,10 @@ class Ui_MainWindow(object):
         self.label.setText("")
         self.label.setObjectName("label")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(40, 25, 41, 32))
+        self.pushButton.setGeometry(QtCore.QRect(10, 25, 80, 32))
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(100, 25, 41, 32))
+        self.pushButton_2.setGeometry(QtCore.QRect(100, 25, 80, 32))
         self.pushButton_2.setObjectName("pushButton_2")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(20, 5, 151, 16))
@@ -35,7 +35,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("Map", "Map"))
-        self.pushButton.setText(_translate("MainWindow", "+"))
-        self.pushButton_2.setText(_translate("MainWindow", "-"))
+        self.pushButton.setText(_translate("MainWindow", "PgDown"))
+        self.pushButton_2.setText(_translate("MainWindow", "PgUp"))
         self.label_2.setText(_translate("MainWindow", "Изменение масштаба"))
 

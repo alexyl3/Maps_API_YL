@@ -23,11 +23,13 @@ class Menu(QMainWindow, Ui_MainWindow):
         self.pushButton_2.clicked.connect(self.scale_down)
 
     def scale_up(self):
-        self.delta = str(float(self.delta) + 0.001)
+        if float(self.delta) > 0.0001:
+            self.delta = str(float(self.delta) * 2)
         self.upd()
 
     def scale_down(self):
-        self.delta = str(float(self.delta) - 0.001)
+        if float(self.delta) < 1:
+            self.delta = str(float(self.delta) * 0.5)
         self.upd()
 
     def upd(self):

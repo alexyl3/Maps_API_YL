@@ -11,17 +11,33 @@ class Menu(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        api_server = "http://static-maps.yandex.ru/1.x/"
-        lon = "37.564985"
-        lat = "55.725680"
-        delta = "0.002"
-        params = {
-            "ll": ",".join([lon, lat]),
-            "spn": ",".join([delta, delta]),
+        self.api_server = "http://static-maps.yandex.ru/1.x/"
+        self.lon = "37.564985"
+        self.lat = "55.725680"
+        self.delta = "0.002"
+        self.upd()
+        Image.open(BytesIO(self.response.content)).save('map.png')
+        self.pix = QPixmap('map.png')
+        self.label.setPixmap(self.pix)
+        self.pushButton.clicked.connect(self.scale_up)
+        self.pushButton_2.clicked.connect(self.scale_down)
+
+    def scale_up(self):
+        self.delta = str(float(self.delta) + 0.001)
+        self.upd()
+
+    def scale_down(self):
+        self.delta = str(float(self.delta) - 0.001)
+        self.upd()
+
+    def upd(self):
+        self.params = {
+            "ll": ",".join([self.lon, self.lat]),
+            "spn": ",".join([self.delta, self.delta]),
             "l": "map"
         }
-        response = requests.get(api_server, params=params)
-        Image.open(BytesIO(response.content)).save('map.png')
+        self.response = requests.get(self.api_server, params=self.params)
+        Image.open(BytesIO(self.response.content)).save('map.png')
         self.pix = QPixmap('map.png')
         self.label.setPixmap(self.pix)
 

@@ -2,6 +2,7 @@ import sys
 from map import Ui_MainWindow
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtCore import Qt
 from io import BytesIO
 import requests
 from PIL import Image
@@ -42,6 +43,21 @@ class Menu(QMainWindow, Ui_MainWindow):
         Image.open(BytesIO(self.response.content)).save('map.png')
         self.pix = QPixmap('map.png')
         self.label.setPixmap(self.pix)
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_A:
+            self.move([0, -1])
+        elif event.key() == Qt.Key_D:
+            self.move([0, 1])
+        elif event.key() == Qt.Key_S:
+            self.move([-1, 0])
+        elif event.key() == Qt.Key_W:
+            self.move([1, 0])
+
+    def move(self, dist):
+        self.lon = str(float(self.lon) + dist[1] * float(self.delta) * 3.2)
+        self.lat = str(float(self.lat) + dist[0] * float(self.delta) * 1.32)
+        self.upd()
 
 
 if __name__ == '__main__':

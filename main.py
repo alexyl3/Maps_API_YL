@@ -110,15 +110,19 @@ class Menu(QMainWindow, Ui_MainWindow):
             toponym = json_response["response"]["GeoObjectCollection"][
                 "featureMember"][0]["GeoObject"]
             toponym_coodrinates = toponym["Point"]["pos"]
+            toponym_address = toponym["metaDataProperty"]["GeocoderMetaData"]["text"]
             self.lon, self.lat = toponym_coodrinates.split(" ")
             self.pt = "{0},pm2ntl".format("{0},{1}".format(self.lon, self.lat))
+            self.label_2.setText(toponym_address)
             self.upd()
 
     def clear_search(self):
         self.pt = None
         self.lineEdit.clear()
         self.lineEdit.setDisabled(True)
+        self.label_2.clear()
         self.upd()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

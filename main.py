@@ -31,6 +31,7 @@ class Menu(QMainWindow, Ui_MainWindow):
         self.pushButton_5.clicked.connect(self.skl)
         self.pushButton_6.clicked.connect(self.search)
         self.pushButton_7.clicked.connect(self.clear_search)
+        self.pushButton_8.clicked.connect(self.indt)
         self.pushButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_2.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_3.setFocusPolicy(QtCore.Qt.NoFocus)
@@ -38,8 +39,10 @@ class Menu(QMainWindow, Ui_MainWindow):
         self.pushButton_5.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_6.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pushButton_7.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.pushButton_8.setFocusPolicy(QtCore.Qt.NoFocus)
         self.lineEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.setMouseTracking(True)
+        self.ind = False
 
     def scale_up(self):
         if float(self.delta) > 0.0001:
@@ -74,12 +77,14 @@ class Menu(QMainWindow, Ui_MainWindow):
             self.move([1, 0])
 
     def mousePressEvent(self, event):
-        # (340, 20, 190, 21)
+        # (535, 45, 80, 32)
         if 340 <= event.x() <= 530 and 20 <= event.y() <= 41:
             self.lineEdit.setDisabled(False)
             self.lineEdit.setFocus()
         else:
             self.lineEdit.setDisabled(True)
+        if 535 <= event.x() <= 615 and 45 <= event.y() <= 125:
+            self.indt()
 
     def move(self, dist):
         self.lon = str(float(self.lon) + dist[1] * float(self.delta) * 3.2)
@@ -100,28 +105,37 @@ class Menu(QMainWindow, Ui_MainWindow):
 
     def search(self):
         toponym_to_find = self.lineEdit.text()
-        geocoder_params = {
-            "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
-            "geocode": toponym_to_find,
-            "format": "json"}
-        geo_response = requests.get(self.geocoder_api_server, params=geocoder_params)
-        json_response = geo_response.json()
-        if json_response["response"]["GeoObjectCollection"]["featureMember"]:
-            toponym = json_response["response"]["GeoObjectCollection"][
-                "featureMember"][0]["GeoObject"]
-            toponym_coodrinates = toponym["Point"]["pos"]
-            toponym_address = toponym["metaDataProperty"]["GeocoderMetaData"]["text"]
-            self.lon, self.lat = toponym_coodrinates.split(" ")
-            self.pt = "{0},pm2ntl".format("{0},{1}".format(self.lon, self.lat))
-            self.label_2.setText(toponym_address)
-            self.upd()
+        if toponym_to_find:
+            geocoder_params = {
+                "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
+                "geocode": toponym_to_find,
+                "format": "json"}
+            geo_response = requests.get(self.geocoder_api_server, params=geocoder_params)
+            json_response = geo_response.json()
+            if json_response["response"]["GeoObjectCollection"]["featureMember"]:
+                toponym = json_response["response"]["GeoObjectCollection"][
+                    "featureMember"][0]["GeoObject"]
+                toponym_coodrinates = toponym["Point"]["pos"]
+                toponym_address = toponym["metaDataProperty"]["GeocoderMetaData"]["text"]
+                self.lon, self.lat = toponym_coodrinates.split(" ")
+                self.pt = "{0},pm2ntl".format("{0},{1}".format(self.lon, self.lat))
+                toponym_code = ''
+                if self.ind:
+                    toponym_code = f'{toponym["metaDataProperty"]["GeocoderMetaData"]["Address"]["postal_code"]}'
+                self.label_2.setText(toponym_address + ' ' + toponym_code)
+                self.upd()
 
     def clear_search(self):
         self.pt = None
         self.lineEdit.clear()
         self.lineEdit.setDisabled(True)
         self.label_2.clear()
+        self.search()
         self.upd()
+
+    def indt(self):
+        self.ind = not self.ind
+        self.search()
 
 
 if __name__ == '__main__':
